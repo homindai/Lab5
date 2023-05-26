@@ -1,156 +1,67 @@
-package Lab5Bai1;
+package Lab5Bai2;
 import java.util.ArrayList;
-import java.util.Collections;
-import java.util.Comparator;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.Scanner;
-
 public class Main {
     public static void main(String[] args) {
-        QuanLyPhongHoc quanLyPhongHoc = new QuanLyPhongHoc();
+        QuanLyKhachHang quanLyKhachHang = new QuanLyKhachHang();
         Scanner scanner = new Scanner(System.in);
-        int choice;
+        int choice = 0;
 
-        do {
-            System.out.println("----- MENU -----");
-            System.out.println("1. Thêm phòng học");
-            System.out.println("2. Tìm kiếm phòng học");
-            System.out.println("3. In danh sách phòng học");
-            System.out.println("4. In danh sách phòng học đạt chuẩn");
-            System.out.println("5. Sắp xếp danh sách theo dãy nhà");
-            System.out.println("6. Sắp xếp danh sách theo diện tích giảm dần");
-            System.out.println("7. Sắp xếp danh sách theo số bóng đèn tăng dần");
-            System.out.println("8. Cập nhật số máy tính cho phòng máy tính");
-            System.out.println("9. Xóa phòng học");
-            System.out.println("10. In tổng số phòng học");
-            System.out.println("11. In danh sách các phòng máy có 60 máy");
-            System.out.println("0. Thoát");
+        while (choice != 6) {
+            System.out.println("----- Menu -----");
+            System.out.println("1. Thêm khách hàng mới vào hàng đợi mua vé");
+            System.out.println("2. Bán một vé cho khách hàng");
+            System.out.println("3. Hiển thị danh sách khách hàng");
+            System.out.println("4. Hủy một khách hàng ra khỏi danh sách");
+            System.out.println("5. Thống kê tình hình bán vé");
+            System.out.println("6. Hiển thị danh sách các ga đang chờ mua vé");
+            System.out.println("7. Thoát");
             System.out.print("Nhập lựa chọn của bạn: ");
             choice = scanner.nextInt();
-            scanner.nextLine();
+            scanner.nextLine(); // Consume newline character
 
             switch (choice) {
                 case 1:
-                    System.out.println("----- Thêm phòng học -----");
-                    System.out.print("Nhập mã phòng: ");
-                    String maPhong = scanner.nextLine();
-                    System.out.print("Nhập dãy nhà: ");
-                    String dayNha = scanner.nextLine();
-                    System.out.print("Nhập diện tích: ");
-                    double dienTich = scanner.nextDouble();
-                    System.out.print("Nhập số bóng đèn: ");
-                    int soBongDen = scanner.nextInt();
-                    scanner.nextLine();
-                    System.out.print("Loại phòng học (1 - Lý thuyết, 2 - Máy tính, 3 - Thí nghiệm): ");
-                    int loaiPhong = scanner.nextInt();
-                    scanner.nextLine();
-
-                    if (loaiPhong == 1) {
-                        System.out.print("Có máy chiếu (true/false): ");
-                        boolean coMayChieu = scanner.nextBoolean();
-                        scanner.nextLine();
-                        PhongHocLyThuyet phongLyThuyet = new PhongHocLyThuyet(maPhong, dayNha, dienTich, soBongDen, coMayChieu);
-                        quanLyPhongHoc.themPhongHoc(phongLyThuyet);
-                    } else if (loaiPhong == 2) {
-                        System.out.print("Nhập số máy tính: ");
-                        int soMayTinh = scanner.nextInt();
-                        scanner.nextLine();
-                        PhongMayTinh phongMayTinh = new PhongMayTinh(maPhong, dayNha, dienTich, soBongDen, soMayTinh);
-                        quanLyPhongHoc.themPhongHoc(phongMayTinh);
-                    } else if (loaiPhong == 3) {
-                        System.out.print("Nhập chuyên ngành: ");
-                        String chuyenNganh = scanner.nextLine();
-                        System.out.print("Nhập sức chứa: ");
-                        int sucChua = scanner.nextInt();
-                        scanner.nextLine();
-                        System.out.print("Có bồn rửa (true/false): ");
-                        boolean coBonRua = scanner.nextBoolean();
-                        scanner.nextLine();
-                        PhongThiNghiem phongThiNghiem = new PhongThiNghiem(maPhong, dayNha, dienTich, soBongDen, chuyenNganh, sucChua, coBonRua);
-                        quanLyPhongHoc.themPhongHoc(phongThiNghiem);
-                    }
+                    System.out.print("Nhập số CMND khách hàng: ");
+                    String soCMND = scanner.nextLine();
+                    System.out.print("Nhập tên khách hàng: ");
+                    String tenKhachHang = scanner.nextLine();
+                    System.out.print("Nhập ga đến: ");
+                    String gaDen = scanner.nextLine();
+                    System.out.print("Nhập giá tiền: ");
+                    double giaTien = scanner.nextDouble();
+                    scanner.nextLine(); // Consume newline character
+                    KhachHang khachHang = new KhachHang(soCMND, tenKhachHang, gaDen, giaTien);
+                    quanLyKhachHang.themKhachHang(khachHang);
                     break;
-
                 case 2:
-                    System.out.println("----- Tìm kiếm phòng học -----");
-                    System.out.print("Nhập mã phòng cần tìm kiếm: ");
-                    String maPhongCanTim = scanner.nextLine();
-                    PhongHoc phongHocTimKiem = quanLyPhongHoc.timKiemPhongHoc(maPhongCanTim);
-                    if (phongHocTimKiem != null) {
-                        System.out.println("Phòng học được tìm thấy:");
-                        System.out.println(phongHocTimKiem);
-                    } else {
-                        System.out.println("Không tìm thấy phòng học với mã phòng " + maPhongCanTim);
-                    }
+                    quanLyKhachHang.banVe();
                     break;
-
                 case 3:
-                    System.out.println("----- In danh sách phòng học -----");
-                    quanLyPhongHoc.inDanhSachPhongHoc();
+                    quanLyKhachHang.hienThiDanhSachKhachHang();
                     break;
-
                 case 4:
-                    System.out.println("----- In danh sách phòng học đạt chuẩn -----");
-                    quanLyPhongHoc.inPhongHocDatChuan();
+                    System.out.print("Nhập số CMND khách hàng cần hủy: ");
+                    String cmndHuy = scanner.nextLine();
+                    quanLyKhachHang.huyKhachHang(cmndHuy);
                     break;
-
                 case 5:
-                    System.out.println("----- Sắp xếp danh sách theo dãy nhà -----");
-                    quanLyPhongHoc.sapXepTheoDayNha();
-                    quanLyPhongHoc.inDanhSachPhongHoc();
+                    quanLyKhachHang.thongKeTinhHinhBanVe();
                     break;
-
                 case 6:
-                    System.out.println("----- Sắp xếp danh sách theo diện tích giảm dần -----");
-                    quanLyPhongHoc.sapXepTheoDienTichGiamDan();
-                    quanLyPhongHoc.inDanhSachPhongHoc();
+                    quanLyKhachHang.hienThiDanhSachGa();
                     break;
-
                 case 7:
-                    System.out.println("----- Sắp xếp danh sách theo số bóng đèn tăng dần -----");
-                    quanLyPhongHoc.sapXepTheoSoBongDenTangDan();
-                    quanLyPhongHoc.inDanhSachPhongHoc();
+                    System.out.println("Cảm ơn bạn đã sử dụng chương trình!");
                     break;
-
-                case 8:
-                    System.out.println("----- Cập nhật số máy tính cho phòng máy tính -----");
-                    System.out.print("Nhập mã phòng máy tính cần cập nhật: ");
-                    String maPhongMayTinh = scanner.nextLine();
-                    System.out.print("Nhập số máy tính mới: ");
-                    int soMayTinhMoi = scanner.nextInt();
-                    scanner.nextLine();
-                    quanLyPhongHoc.capNhatSoMayTinh(maPhongMayTinh, soMayTinhMoi);
-                    break;
-
-                case 9:
-                    System.out.println("----- Xóa phòng học -----");
-                    System.out.print("Nhập mã phòng cần xóa: ");
-                    String maPhongCanXoa = scanner.nextLine();
-                    quanLyPhongHoc.xoaPhongHoc(maPhongCanXoa);
-                    break;
-
-                case 10:
-                    System.out.println("----- In tổng số phòng học -----");
-                    quanLyPhongHoc.inTongSoPhongHoc();
-                    break;
-
-                case 11:
-                    System.out.println("----- In danh sách các phòng máy có 60 máy -----");
-                    quanLyPhongHoc.inDanhSachPhongMayTinh60May();
-                    break;
-
-                case 0:
-                    System.out.println("----- Thoát -----");
-                    break;
-
                 default:
                     System.out.println("Lựa chọn không hợp lệ. Vui lòng chọn lại!");
                     break;
             }
-
-            System.out.println();
-        } while (choice != 0);
-
+        }
         scanner.close();
     }
 }
